@@ -1,7 +1,7 @@
 import telebot
 from utils import make_colore
-
-bot = telebot.TeleBot('1740843749:AAGbJ_qaLqp3UjXtAxxejHgNxsmsst-SO5o')
+TOKEN = 'YOUr TOKEN HERE'
+bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
