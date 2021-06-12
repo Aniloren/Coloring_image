@@ -1,6 +1,6 @@
 import telebot
 from utils import make_colore
-TOKEN = 'YOUr TOKEN HERE'
+TOKEN = "YOU TOKE HEAR"
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start', 'help'])
