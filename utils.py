@@ -157,7 +157,7 @@ def make_colore(filename):
     res = res.cpu().detach()
     result = lab_to_rgb(fake_L.cpu(), res)
 
-    filename2 = 'filename.jpg'
+    filename2 = 'send_image.jpg'
     plt.axis('off')
     plt.imshow(result[0])
     plt.savefig(filename2, bbox_inches='tight', pad_inches=0)
