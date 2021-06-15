@@ -137,7 +137,8 @@ def build_res_unet(n_input=1, n_output=2, size=256):
 
 
 def make_colore(filename):
-    fake = Image.open(filename)
+    fake = Image.open(filename).convert(mode='RGB')
+    print(fake.shape)
     transform = transforms.Resize((256, 256), Image.BICUBIC)
     fake = transform(fake)
     fake = np.array(fake)
