@@ -27,7 +27,8 @@ class AverageMeter:
         self.avg = self.sum / self.count
 
 
-def make_dataloaders(batch_size=32, n_workers=3, pin_memory=True, **kwargs):  # A handy function to make our dataloaders
+# A handy function to make our dataloaders
+def make_dataloaders(batch_size=32, n_workers=3, pin_memory=True, **kwargs):
     dataset = ColorizationDataset(**kwargs)
     dataloader = DataLoader(dataset, batch_size=batch_size, num_workers=n_workers,
                             pin_memory=pin_memory)
@@ -147,9 +148,11 @@ def make_colore(filename):
     fake_L = torch.reshape(fake_L, (1, 1, 256, 256)).cuda()
     net_G = build_res_unet(n_input=1, n_output=2, size=256)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    net_G.load_state_dict(torch.load("weights/res18-unet.pt", map_location=device))
+    net_G.load_state_dict(torch.load(
+        "weights/res18-unet.pt", map_location=device))
     model = MainModel(net_G=net_G)
-    model.load_state_dict(torch.load("weights/final_model_weights.pt", map_location=device))
+    model.load_state_dict(torch.load(
+        "weights/final_model_weights.pt", map_location=device))
 
     print('load done')
 

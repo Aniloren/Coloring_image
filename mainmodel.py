@@ -12,19 +12,24 @@ class MainModel(nn.Module):
                  beta1=0.5, beta2=0.999, lambda_L1=100.):
         super().__init__()
 
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device(
+            "cuda" if torch.cuda.is_available() else "cpu")
         print('DEVICE:', self.device)
         self.lambda_L1 = lambda_L1
 
         if net_G is None:
-            self.net_G = init_model(Unet(input_c=1, output_c=2, n_down=8, num_filters=64), self.device)
+            self.net_G = init_model(
+                Unet(input_c=1, output_c=2, n_down=8, num_filters=64), self.device)
         else:
             self.net_G = net_G.to(self.device)
-        self.net_D = init_model(PatchDiscriminator(input_c=3, n_down=3, num_filters=64), self.device)
+        self.net_D = init_model(PatchDiscriminator(
+            input_c=3, n_down=3, num_filters=64), self.device)
         self.GANcriterion = GANLoss(gan_mode='vanilla').to(self.device)
         self.L1criterion = nn.L1Loss()
-        self.opt_G = optim.Adam(self.net_G.parameters(), lr=lr_G, betas=(beta1, beta2))
-        self.opt_D = optim.Adam(self.net_D.parameters(), lr=lr_D, betas=(beta1, beta2))
+        self.opt_G = optim.Adam(self.net_G.parameters(),
+                                lr=lr_G, betas=(beta1, beta2))
+        self.opt_D = optim.Adam(self.net_D.parameters(),
+                                lr=lr_D, betas=(beta1, beta2))
 
     def set_requires_grad(self, model, requires_grad=True):
         for p in model.parameters():
@@ -55,7 +60,8 @@ class MainModel(nn.Module):
         fake_image = torch.cat([self.L, self.fake_color], dim=1)
         fake_preds = self.net_D(fake_image)
         self.loss_G_GAN = self.GANcriterion(fake_preds, True)
-        self.loss_G_L1 = self.L1criterion(self.fake_color, self.ab) * self.lambda_L1
+        self.loss_G_L1 = self.L1criterion(
+            self.fake_color, self.ab) * self.lambda_L1
         self.loss_G = self.loss_G_GAN + self.loss_G_L1
         self.loss_G.backward()
 

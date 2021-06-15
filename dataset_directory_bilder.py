@@ -3,8 +3,10 @@ import shutil
 import argparse
 image_extensions = {'.jpg', '.jpeg', '.JPG', '.JPEG'}
 
+
 def parse_args():
-    parser = argparse.ArgumentParser(description="Put all places 365 images in single folder.")
+    parser = argparse.ArgumentParser(
+        description="Put all places 365 images in single folder.")
     parser.add_argument("-i",
                         "--input_dir",
                         required=True,
@@ -24,10 +26,11 @@ def parse_args():
     args = parser.parse_args()
     return args
 
+
 def genlist(image_dir):
     image_list = []
     for filename in os.listdir(image_dir):
-        path = os.path.join(image_dir,filename)
+        path = os.path.join(image_dir, filename)
         if os.path.isdir(path):
             image_list = image_list + genlist(path)
         else:
@@ -47,8 +50,8 @@ else:
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
     flist = genlist(args.input_dir)
-    for i,p in enumerate(flist):
+    for i, p in enumerate(flist):
         if os.path.getsize(p) != 0:
-            os.rename(p,os.path.join(args.output_dir,str(i)+'.jpg'))
+            os.rename(p, os.path.join(args.output_dir, str(i)+'.jpg'))
     shutil.rmtree(args.input_dir)
     print('----done----')

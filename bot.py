@@ -1,11 +1,13 @@
 import telebot
 from utils import make_colore
-TOKEN = "YOU TOKE HEAR"
+TOKEN = "1740843749:AAGbJ_qaLqp3UjXtAxxejHgNxsmsst-SO5o"
 bot = telebot.TeleBot(TOKEN)
+
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, f'Я красильщик. Приятно познакомиться, {message.from_user.first_name}')
+    bot.reply_to(
+        message, f'Я красильщик. Приятно познакомиться, {message.from_user.first_name}')
 
 # def start_message(message):
 
@@ -19,6 +21,7 @@ def send_welcome(message):
 #         bot.send_message(message.from_user.id, 'Привет')
 #     else:
 #         bot.send_message(message.from_user.id, '.')
+
 
 @bot.message_handler(content_types=["document"])
 def get_image(message):
