@@ -26,28 +26,27 @@ def train_model(model, train_dl, epochs, display_every=200):
                 print(f"\nEpoch {e+1}/{epochs}")
                 print(f"Iteration {i}/{len(train_dl)}")
                 log_results(loss_meter_dict) # function to print out the losses
-                visualize(model, data, save=False) # function displaying the model's outputs
+                # visualize(model, data, save=False) # function displaying the model's outputs
 
 def main():
     paths = glob.glob(DATA_PATH + "/*.jpg")
     # print(paths)
-    np.random.seed(123)
-    paths_subset = np.random.choice(paths, 10_000, replace=False) # choosing 1000 images randomly
-    rand_idxs = np.random.permutation(10_000)
-    train_idxs = rand_idxs[:8000] # choosing the first 8000 as training set
-    val_idxs = rand_idxs[8000:] # choosing last 2000 as validation set
+    # np.random.seed(123)
+    paths_subset = np.random.choice(paths,len(paths), replace=False) # choosing 1000 images randomly
+    rand_idxs = np.random.permutation(len(paths))
+    train_idxs = rand_idxs[:int(0.8*len(rand_idxs))] # choosing the first 8000 as training set
+    val_idxs = rand_idxs[int(0.8*len(rand_idxs)):] # choosing last 2000 as validation set
     train_paths = paths_subset[train_idxs]
     val_paths = paths_subset[val_idxs]
-    print(len(train_paths), len(val_paths))
-    train_dl = make_dataloaders(paths=train_paths,batch_size=8, split='train')
-    # val_dl = make_dataloaders(paths=val_paths, split='val')
+    # print(len(train_paths), len(val_paths))
+    train_dl = make_dataloaders(paths=train_paths,batch_size=32, split='train')
+    val_dl = make_dataloaders(paths=val_paths, split='val')
 
     # print(len(train_dl), len(val_dl))
     
 
     model = MainModel()
     train_model(model, train_dl, 100)
-    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # print(device)
+
 if __name__ == '__main__':
     main()
